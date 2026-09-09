@@ -14,7 +14,7 @@ import { isVisibleForFollowing } from '../utils/visibility';
 export function HomeScreen() {
   const {
     data, preferences, selectedLeague, setSelectedLeague, setActiveTab,
-    readNewsIds, markNewsRead, refreshing, refreshData, dataSource, dataSourceMessage,
+    readNewsIds, markNewsRead, refreshing, refreshData,
   } = useAppState();
 
   const followed = data.entities.filter((entity) => preferences.followedEntityIds.includes(entity.id));
@@ -107,10 +107,10 @@ export function HomeScreen() {
       </View>
 
       <View style={styles.demoNotice}>
-        <View style={[styles.demoDot, dataSource !== 'supabase' && styles.demoDotWarning]} />
+        <View style={styles.demoDot} />
         <View style={{ flex: 1 }}>
-          <Text style={styles.demoTitle}>{dataSource === 'supabase' ? 'Supabase 연결됨' : dataSource === 'schema_missing' ? '스키마 설정 필요' : '로컬 데이터 사용 중'}</Text>
-          <Text style={styles.demoCopy}>{dataSourceMessage}</Text>
+          <Text style={styles.demoTitle}>프로토타입 데이터</Text>
+          <Text style={styles.demoCopy}>현재는 샘플 데이터이며, Supabase 연결 후 한 시간마다 자동 갱신됩니다.</Text>
         </View>
       </View>
     </ScrollView>
@@ -143,7 +143,6 @@ const styles = StyleSheet.create({
   empty: { color: colors.textSubtle, textAlign: 'center', paddingVertical: 25, fontSize: 13 },
   demoNotice: { marginHorizontal: 20, marginTop: 28, borderRadius: radii.md, padding: 14, flexDirection: 'row', gap: 10, backgroundColor: '#0D1715', borderWidth: 1, borderColor: '#19352D' },
   demoDot: { width: 8, height: 8, borderRadius: 4, backgroundColor: colors.mint, marginTop: 4 },
-  demoDotWarning: { backgroundColor: colors.warning },
   demoTitle: { color: colors.text, fontSize: 12, fontWeight: '800' },
   demoCopy: { color: colors.textMuted, fontSize: 11, lineHeight: 17, marginTop: 3 },
 });

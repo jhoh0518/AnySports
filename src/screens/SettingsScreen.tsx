@@ -10,7 +10,7 @@ import { ContentLeagueId, FollowedEntity, LeagueId } from '../types/domain';
 const leagueOrder: ContentLeagueId[] = ['epl', 'lck', 'f1'];
 
 export function SettingsScreen() {
-  const { data, preferences, updatePreferences, toggleFollow, setSelectedLeague, dataSource, dataSourceMessage, lastSyncAt, refreshData, refreshing } = useAppState();
+  const { data, preferences, updatePreferences, toggleFollow, setSelectedLeague } = useAppState();
   const [interestOpen, setInterestOpen] = useState(false);
   const [defaultOpen, setDefaultOpen] = useState(false);
   const followedEntities = data.entities.filter((entity) => preferences.followedEntityIds.includes(entity.id));
@@ -63,16 +63,9 @@ export function SettingsScreen() {
 
         <Text style={styles.sectionLabel}>데이터</Text>
         <View style={styles.group}>
-          <SettingsRow
-            title="데이터 소스"
-            subtitle={dataSourceMessage}
-            icon="◇"
-            trailing={dataSource === 'supabase' ? '연결됨' : dataSource === 'schema_missing' ? '설정 필요' : dataSource === 'connecting' ? '확인 중' : '로컬'}
-            onPress={() => void refreshData()}
-          />
-          <SettingsRow title="마지막 동기화" subtitle="데이터 소스를 누르면 즉시 다시 확인합니다" icon="↻" trailing={refreshing ? '확인 중' : lastSyncAt ? new Date(lastSyncAt).toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' }) : '없음'} />
+          <SettingsRow title="데이터 소스" subtitle="현재 샘플 데이터 · 추후 Supabase 연결" icon="◇" trailing="로컬" />
           <SettingsRow title="수집 주기" subtitle="백엔드가 새 일정과 소식을 확인하는 주기" icon="↻" trailing="1시간" />
-          <SettingsRow title="앱 버전" icon="i" trailing="0.2.0" />
+          <SettingsRow title="앱 버전" icon="i" trailing="0.1.0" />
         </View>
 
         <View style={styles.securityBox}>
