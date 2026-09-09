@@ -43,3 +43,4 @@ Android 기기에서 테스트하려면 Expo Go로 QR 코드를 읽거나, `Buil
 
 `.env`와 `Database Password.txt`는 제외됩니다. 모바일 앱에는 Supabase Project URL과 publishable key만 둘 수 있으며, 데이터베이스 비밀번호·secret key·service role key는 절대 포함하면 안 됩니다.
 
+Codex Cloud connection test
