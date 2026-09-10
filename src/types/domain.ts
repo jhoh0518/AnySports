@@ -60,3 +60,6 @@ export interface AppDataSnapshot {
   news: NewsItem[];
 }
 
+export type DataSource = 'supabase' | 'cache' | 'sample';
+export type ConnectionStatus = 'checking' | 'connected' | 'configuration-required' | 'schema-required' | 'permission-error' | 'network-error' | 'unknown-error';
+export interface DataConnectionState { status: ConnectionStatus; source: DataSource; lastSyncedAt?: string; message?: string }

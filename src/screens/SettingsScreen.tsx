@@ -6,11 +6,12 @@ import { SettingsRow } from '../components/SettingsRow';
 import { useAppState } from '../state/AppState';
 import { colors, radii } from '../theme';
 import { ContentLeagueId, FollowedEntity, LeagueId } from '../types/domain';
+import { formatSyncTime } from '../utils/format';
 
 const leagueOrder: ContentLeagueId[] = ['epl', 'lck', 'f1'];
 
 export function SettingsScreen() {
-  const { data, preferences, updatePreferences, toggleFollow, setSelectedLeague } = useAppState();
+  const { data, preferences, updatePreferences, toggleFollow, setSelectedLeague, connection, refreshing, refreshData } = useAppState();
   const [interestOpen, setInterestOpen] = useState(false);
   const [defaultOpen, setDefaultOpen] = useState(false);
   const followedEntities = data.entities.filter((entity) => preferences.followedEntityIds.includes(entity.id));
@@ -30,9 +31,9 @@ export function SettingsScreen() {
           <View style={styles.avatar}><Text style={styles.avatarText}>AS</Text></View>
           <View style={{ flex: 1 }}>
             <Text style={styles.profileName}>AnySports 사용자</Text>
-            <Text style={styles.profileCaption}>개인 프로토타입 · 로컬 모드</Text>
+            <Text style={styles.profileCaption}>개인 프로토타입 · {connection.source === 'supabase' ? 'Supabase' : connection.source === 'cache' ? '캐시 모드' : '샘플 모드'}</Text>
           </View>
-          <View style={styles.localPill}><View style={styles.localDot} /><Text style={styles.localText}>LOCAL</Text></View>
+          <View style={styles.localPill}><View style={styles.localDot} /><Text style={styles.localText}>{connection.status === 'connected' ? 'ONLINE' : 'LOCAL'}</Text></View>
         </View>
 
         <Text style={styles.sectionLabel}>관심 스포츠</Text>
@@ -63,9 +64,9 @@ export function SettingsScreen() {
 
         <Text style={styles.sectionLabel}>데이터</Text>
         <View style={styles.group}>
-          <SettingsRow title="데이터 소스" subtitle="현재 샘플 데이터 · 추후 Supabase 연결" icon="◇" trailing="로컬" />
+          <SettingsRow title="데이터 소스" subtitle={connection.message ?? (connection.status === 'connected' ? `마지막 동기화 ${formatSyncTime(connection.lastSyncedAt)}` : '눌러서 Supabase 연결을 확인하세요')} icon="◇" trailing={refreshing ? '확인 중' : connection.status === 'connected' ? '연결됨' : connection.status === 'schema-required' ? '설정 필요' : connection.source === 'cache' ? '캐시' : '로컬'} onPress={() => { if (!refreshing) void refreshData(); }} />
           <SettingsRow title="수집 주기" subtitle="백엔드가 새 일정과 소식을 확인하는 주기" icon="↻" trailing="1시간" />
-          <SettingsRow title="앱 버전" icon="i" trailing="0.1.0" />
+          <SettingsRow title="앱 버전" icon="i" trailing="0.2.0" />
         </View>
 
         <View style={styles.securityBox}>

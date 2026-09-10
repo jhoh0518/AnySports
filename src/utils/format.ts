@@ -23,10 +23,14 @@ export function formatRelativeTime(value: string): string {
   return `${Math.floor(hours / 24)}일 전`;
 }
 
+export function formatSyncTime(value?: string): string {
+  if (!value) return '동기화 기록 없음';
+  return new Intl.DateTimeFormat('ko-KR', { month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false }).format(new Date(value));
+}
+
 export function matchesLeague<T extends { leagueId: Exclude<LeagueId, 'all'> }>(
   item: T,
   league: LeagueId,
 ): boolean {
   return league === 'all' || item.leagueId === league;
 }
-

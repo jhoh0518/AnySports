@@ -14,7 +14,7 @@ import { isVisibleForFollowing } from '../utils/visibility';
 export function HomeScreen() {
   const {
     data, preferences, selectedLeague, setSelectedLeague, setActiveTab,
-    readNewsIds, markNewsRead, refreshing, refreshData,
+    readNewsIds, markNewsRead, refreshing, refreshData, connection,
   } = useAppState();
 
   const followed = data.entities.filter((entity) => preferences.followedEntityIds.includes(entity.id));
@@ -109,8 +109,8 @@ export function HomeScreen() {
       <View style={styles.demoNotice}>
         <View style={styles.demoDot} />
         <View style={{ flex: 1 }}>
-          <Text style={styles.demoTitle}>프로토타입 데이터</Text>
-          <Text style={styles.demoCopy}>현재는 샘플 데이터이며, Supabase 연결 후 한 시간마다 자동 갱신됩니다.</Text>
+          <Text style={styles.demoTitle}>{connection.status === 'connected' ? 'Supabase 연결됨' : connection.source === 'cache' ? '저장 데이터 표시 중' : '샘플 데이터 표시 중'}</Text>
+          <Text style={styles.demoCopy}>{connection.status === 'connected' ? '최신 일정과 소식을 원격 데이터베이스에서 불러왔습니다.' : connection.message ?? 'Supabase 연결을 확인하고 있습니다.'}</Text>
         </View>
       </View>
     </ScrollView>
