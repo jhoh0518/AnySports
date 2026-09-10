@@ -56,3 +56,4 @@ select
   to_regclass('public.article_entities') as article_entities;
 ```
 4. 앱을 완전히 종료해 다시 실행한 뒤 **설정 → 데이터 소스**를 누릅니다.
+

@@ -38,6 +38,3 @@ insert into public.event_entities values ('evt-city-arsenal','man-city'),('evt-f
 insert into public.articles(id,league_id,title,summary,source,published_at,accent,category) values
 ('news-city','epl','시티, 주말 빅매치 앞두고 최종 훈련','아스널전을 앞둔 선수단 소식입니다.','Manchester City','2026-09-08T23:25:00Z','#6CABDD','팀 소식'),('news-ferrari','f1','페라리, 몬차용 패키지 공개','홈 그랑프리를 위한 구성이 공개됐습니다.','Formula 1','2026-09-08T22:10:00Z','#E80020','테크니컬'),('news-dk','lck','디플러스 기아, 플레이오프 준비','핵심 밴픽과 주목할 라인을 확인하세요.','LoL Esports','2026-09-08T12:40:00Z','#C6D0DB','프리뷰') on conflict(id) do update set title=excluded.title,summary=excluded.summary,published_at=excluded.published_at;
 insert into public.article_entities values ('news-city','man-city'),('news-ferrari','ferrari'),('news-dk','dplus-kia') on conflict do nothing;
-
--- 같은 SQL 실행에서 생성한 테이블과 외래 키가 Data API에 즉시 반영되도록 요청합니다.
-notify pgrst, 'reload schema';
